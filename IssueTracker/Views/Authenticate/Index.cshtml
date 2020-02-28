@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h1>Bugs Table</h1>
+    @{ 
+        var list = ViewBag.list;
+    }
+    @if (list.Count == 0) {
+        <h4>No Bug History Yet !!...</h4>
+    }
+    else { 
+        <table>
+             <tr>
+                 <th>Bug Details</th>
+                 <th>Project Name</th>
+                 <th>Priority</th>
+                 <th>Raised By</th>
+                 <th>Assigned To</th>
+                 <th>Status</th>
+             </tr>
+             @foreach(var i in list) {
+                  <tr>
+                      <td>@i.Description</td>
+                      <td>@i.BugInProject</td>
+                      <td>@i.Priority</td>
+                      <td>@i.RaisedBy</td>
+                      @if (@i.AssignedTo is null) {
+                          <td>-</td>
+                      }
+                  
+                      else {
+                          <td>@i.AssignedTo.Name</td>
+                      }
+                      <td>@i.Status</td>
+                  
+                  </tr>
+             }
+
+         </table>
+    }
+
+</body>
+</html>
