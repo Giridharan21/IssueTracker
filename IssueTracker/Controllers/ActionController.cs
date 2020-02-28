@@ -13,6 +13,9 @@ namespace IssueTracker.Controllers
         // GET: Action
         public ActionResult Check(int id)
         {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+
             ViewBag.BugId = id;
             return View();
         }
@@ -21,19 +24,36 @@ namespace IssueTracker.Controllers
             Data.Change(Id, Status);
             return Redirect("~/Authenticate/Index");
         }
+
+
         public ActionResult Create() {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+
             return View();
         }
         [HttpPost]
         public ActionResult Create(BugModel bug) {
             var Emp = (EmpInfo)Session["User"];
             Data.Create(Emp, bug.Description, bug.Priority);
-            return View("~/Authenticate/index");
+            return Redirect("~/Authenticate/Index");
         }
+
+
+
         public ActionResult Assign() {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+
             return View();
         }
+
+
+
         public ActionResult Resolve() {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+
             return View();
         }
     }

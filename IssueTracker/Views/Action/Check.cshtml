@@ -11,7 +11,14 @@
     <title>Check</title>
 </head>
 <body>
-    @{ 
+    @if (ViewBag.User is null) {
+        <script>
+            alert('Login to continue');
+            location.href = "/Authenticate/Login";
+        </script>
+
+    }
+    @{
         var id = ViewBag.BugId;
     }
     <h1>Checking Status</h1>

@@ -13,8 +13,15 @@
 <body>
     <h1>Bugs Table</h1>
     @{
-        var list = ViewBag.list;
-        var user = ViewBag.user;
+        var list = ViewBag.List;
+        var user = ViewBag.User;
+    }
+    @if(ViewBag.User is null) {
+        <script>
+            alert('Login to continue');
+            location.href = "/Authenticate/Login";
+        </script>
+        
     }
     @if (list.Count == 0) {
         <h4>No Bug History Yet !!...</h4>
@@ -33,9 +40,9 @@
             @foreach (var i in list) {
                 <tr>
                     <td>@i.Description</td>
-                    <td>@i.BugInProject</td>
+                    <td>@i.BugInProject.Name</td>
                     <td>@i.Priority</td>
-                    <td>@i.RaisedBy</td>
+                    <td>@i.RaisedBy.Name</td>
                     @if (@i.AssignedTo is null) {
                         <td>-</td>
                     }

@@ -18,8 +18,9 @@ namespace DataAccessLayer
             var BugQuery = context.Bugs.Where(g => g.BugInProject.Id == 0);
             List<BugPool> list = new List<BugPool>();
             if (Emp.Role == "PM") {
-                var temp = context.Assigned.Where(g => g.Emp.Id == Emp.Id).FirstOrDefault();
-                BugQuery = context.Bugs.Where(g => g.BugInProject.Id == temp.Id);
+                var temp = context.Assigned.Where(g => g.Emp.Id == Emp.Id).Select(g=>g.Project).FirstOrDefault();
+                BugQuery = context.Bugs.Where(g => g.BugInProject.Id == temp.Id).Select(g=>g);
+                
             }
             else if (Emp.Role == "Tester") {
                 BugQuery = context.Bugs.Where(g => g.RaisedBy.Id == Emp.Id);
@@ -27,8 +28,14 @@ namespace DataAccessLayer
             else if(Emp.Role == "Developer") {
                 BugQuery = context.Bugs.Where(g => g.AssignedTo.Id == Emp.Id);
             }
+            var Project = context.Bugs.Select(g => g.BugInProject);
+            foreach (var i in Project) { }
+            var RaisedBy = context.Bugs.Select(g => g.RaisedBy);
+            foreach (var i in RaisedBy) { }
+            var AssignedTo = context.Bugs.Select(g => g.AssignedTo);
+            foreach (var i in AssignedTo) { }
             foreach (var i in BugQuery)
-                list.Add(i);
+                    list.Add(i);
             return list;
         }
 
@@ -49,7 +56,7 @@ namespace DataAccessLayer
             bug.BugInProject = project;
             bug.Description = Desc;
             context.Bugs.Add(bug);
-            context.SaveChanges();
+            context.SaveChangesAsync();
         }
     }
 }

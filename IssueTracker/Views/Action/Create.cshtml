@@ -11,6 +11,13 @@
     <title>Create</title>
 </head>
 <body>
+    @if (ViewBag.User is null) {
+        <script>
+            alert('Login to continue');
+            location.href = "../Authenticate/Login";
+        </script>
+
+    }
     @using (Html.BeginForm("create", "action", FormMethod.Post)) {
         @Html.EditorForModel()
         <input type="submit" value="Create" />
