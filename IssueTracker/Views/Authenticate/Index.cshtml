@@ -12,41 +12,56 @@
 </head>
 <body>
     <h1>Bugs Table</h1>
-    @{ 
+    @{
         var list = ViewBag.list;
+        var user = ViewBag.user;
     }
     @if (list.Count == 0) {
         <h4>No Bug History Yet !!...</h4>
     }
-    else { 
+    else {
         <table>
-             <tr>
-                 <th>Bug Details</th>
-                 <th>Project Name</th>
-                 <th>Priority</th>
-                 <th>Raised By</th>
-                 <th>Assigned To</th>
-                 <th>Status</th>
-             </tr>
-             @foreach(var i in list) {
-                  <tr>
-                      <td>@i.Description</td>
-                      <td>@i.BugInProject</td>
-                      <td>@i.Priority</td>
-                      <td>@i.RaisedBy</td>
-                      @if (@i.AssignedTo is null) {
-                          <td>-</td>
-                      }
-                  
-                      else {
-                          <td>@i.AssignedTo.Name</td>
-                      }
-                      <td>@i.Status</td>
-                  
-                  </tr>
-             }
+            <tr>
+                <th>Bug Details</th>
+                <th>Project Name</th>
+                <th>Priority</th>
+                <th>Raised By</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var i in list) {
+                <tr>
+                    <td>@i.Description</td>
+                    <td>@i.BugInProject</td>
+                    <td>@i.Priority</td>
+                    <td>@i.RaisedBy</td>
+                    @if (@i.AssignedTo is null) {
+                        <td>-</td>
+                    }
 
-         </table>
+                    else {
+                        <td>@i.AssignedTo.Name</td>
+                    }
+                    <td>@i.Status</td>
+                    <td>
+                        @if (user.Role == "PM") {
+                            <a href="~/Action/Assign/?id=@i.Id">Assign</a>
+                        }
+                        else if (user.Role == "Developer") {
+                            <a href="~/Action/Resolve/?id=@i.Id">Resolve</a>
+                        }
+                        else if (user.Role == "Tester") {
+                            <a href="~/Action/Check/?id=@i.Id">Check</a>
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    @if (user.Role == "Tester") {
+    <a href="~/Action/Create">Create A Bug Report</a>
     }
 
 </body>

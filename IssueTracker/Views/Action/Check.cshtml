@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Check</title>
+</head>
+<body>
+    @{ 
+        var id = ViewBag.BugId;
+    }
+    <h1>Checking Status</h1>
+    @using (Html.BeginForm("check", "action", FormMethod.Post)) {
+        <input type="hidden" name="Id" value=@id />
+        <span>Enter Status: </span>@Html.TextBox("Status")
+        <input type="submit" value="Change" />
+    }
+</body>
+</html>

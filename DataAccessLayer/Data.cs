@@ -31,5 +31,25 @@ namespace DataAccessLayer
                 list.Add(i);
             return list;
         }
+
+        public static void Change(int id ,string Status) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var Bug = context.Bugs.Where(g => g.Id == id).FirstOrDefault();
+            Bug.Status = Status;
+            context.SaveChanges();
+        }
+
+        public static void Create(EmpInfo Emp, string Desc, string Priority) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var project = context.Assigned.Where(g => g.Emp.Id == Emp.Id).Select(g => g.Project).FirstOrDefault();
+            BugPool bug = new BugPool();
+            bug.Priority = Priority;
+            bug.RaisedBy = Emp;
+            bug.Status = "Open";
+            bug.BugInProject = project;
+            bug.Description = Desc;
+            context.Bugs.Add(bug);
+            context.SaveChanges();
+        }
     }
 }

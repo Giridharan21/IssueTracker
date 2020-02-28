@@ -28,7 +28,9 @@ namespace IssueTracker.Controllers
         public ActionResult Index()
         {
             var Emp = (EmpInfo)Session["User"];
-           var list = Data.GetBugList(Emp);
+
+            var list = Data.GetBugList(Emp);
+            ViewBag.User = (EmpInfo)Session["User"];
             ViewBag.List = list; 
             return View();
         }
