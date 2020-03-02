@@ -51,12 +51,14 @@ namespace DataAccessLayer
             var project = context.Assigned.Where(g => g.Emp.Id == Emp.Id).Select(g => g.Project).FirstOrDefault();
             BugPool bug = new BugPool();
             bug.Priority = Priority;
-            bug.RaisedBy = Emp;
+            bug.RaisedBy_FK = Emp.Id;
+            //bug.RaisedBy = Emp;
             bug.Status = "Open";
-            bug.BugInProject = project;
+            bug.Project_FK = project.Id;
+            //bug.BugInProject = project;
             bug.Description = Desc;
             context.Bugs.Add(bug);
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 }

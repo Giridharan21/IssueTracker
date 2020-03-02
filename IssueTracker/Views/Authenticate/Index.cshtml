@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -16,60 +15,86 @@
         var list = ViewBag.List;
         var user = ViewBag.User;
     }
-    @if(ViewBag.User is null) {
+
+    @if (user is null ) {
         <script>
-            alert('Login to continue');
+            alert('Login to continue1');
+            location.href = "/Authenticate/Login";
+
+            
+        </script>
+
+    }
+    @try {
+        
+        if (list.Count == 0) {
+            <h4>No Bug History Yet !!...</h4>
+        }
+        else {
+            <table>
+                <tr>
+                    <th>Bug Details</th>
+                    <th>Project Name</th>
+                    <th>Priority</th>
+                    <th>Raised By</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var i in list) {
+                    <tr>
+                        <td>@i.Description</td>
+                        <td>@i.BugInProject.Name</td>
+                        <td>@i.Priority</td>
+                        <td>@i.RaisedBy.Name</td>
+                        @if (@i.AssignedTo is null) {
+                            <td>-</td>
+                        }
+
+                        else {
+                            <td>@i.AssignedTo.Name</td>
+                        }
+                        <td>@i.Status</td>
+                        <td>
+                            @if (user.Role == "PM") {
+                                <a href="~/Action/Assign/?id=@i.Id">Assign</a>
+                            }
+                            else if (user.Role == "Developer") {
+                                using (Html.BeginForm("Resolve", "Action", FormMethod.Post)) {
+                                    <input type="hidden" value=@i.Id name="Id" />
+                                    <input type="submit" id="Resolve" value="Resolve" onclick="" />
+                                }
+                                //<a href="~/Action/Resolve/?id=@i.Id">Resolve</a>
+                            }
+                            else if (user.Role == "Tester") {
+                                using (Html.BeginForm("Check", "Action", FormMethod.Post)) {
+                                    <input type="hidden" value=@i.Id name="Id" />
+                                    <input type="hidden" value=@i.Status name="Status" />
+                                    <input type="submit" id="Change" value="Change" />
+                                }
+                                //<a href="~/Action/Check/@i.Id">Check</a>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+        if (user.Role == "Tester") {
+            <a href="~/Action/Create">Create A Bug Report</a>
+        }
+
+    }
+    catch (Exception) {
+        <script>
+            alert('Login to continue1');
             location.href = "/Authenticate/Login";
         </script>
-        
-    }
-    @if (list.Count == 0) {
-        <h4>No Bug History Yet !!...</h4>
-    }
-    else {
-        <table>
-            <tr>
-                <th>Bug Details</th>
-                <th>Project Name</th>
-                <th>Priority</th>
-                <th>Raised By</th>
-                <th>Assigned To</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            @foreach (var i in list) {
-                <tr>
-                    <td>@i.Description</td>
-                    <td>@i.BugInProject.Name</td>
-                    <td>@i.Priority</td>
-                    <td>@i.RaisedBy.Name</td>
-                    @if (@i.AssignedTo is null) {
-                        <td>-</td>
-                    }
 
-                    else {
-                        <td>@i.AssignedTo.Name</td>
-                    }
-                    <td>@i.Status</td>
-                    <td>
-                        @if (user.Role == "PM") {
-                            <a href="~/Action/Assign/?id=@i.Id">Assign</a>
-                        }
-                        else if (user.Role == "Developer") {
-                            <a href="~/Action/Resolve/?id=@i.Id">Resolve</a>
-                        }
-                        else if (user.Role == "Tester") {
-                            <a href="~/Action/Check/?id=@i.Id">Check</a>
-                        }
-                    </td>
-                </tr>
-            }
-
-        </table>
     }
-    @if (user.Role == "Tester") {
-    <a href="~/Action/Create">Create A Bug Report</a>
-    }
-
+    
+   <script>
+        @Html.Raw(ViewBag.Msg)
+   </script>
 </body>
 </html>

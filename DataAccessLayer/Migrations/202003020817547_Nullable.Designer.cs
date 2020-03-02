@@ -7,13 +7,13 @@ namespace DataAccessLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
-    public sealed partial class mig : IMigrationMetadata
+    public sealed partial class Nullable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(mig));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Nullable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002280547449_mig"; }
+            get { return "202003020817547_Nullable"; }
         }
         
         string IMigrationMetadata.Source

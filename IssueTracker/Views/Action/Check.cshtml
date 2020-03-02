@@ -21,11 +21,12 @@
     @{
         var id = ViewBag.BugId;
     }
-    <h1>Checking Status</h1>
+   
+    @*<h1>Checking Status</h1>
     @using (Html.BeginForm("check", "action", FormMethod.Post)) {
         <input type="hidden" name="Id" value=@id />
         <span>Enter Status: </span>@Html.TextBox("Status")
         <input type="submit" value="Change" />
-    }
+    }*@
 </body>
 </html>

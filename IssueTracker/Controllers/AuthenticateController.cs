@@ -25,14 +25,22 @@ namespace IssueTracker.Controllers
             ViewBag.alert = "alert('Invalid User')";
             return View();
         }
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index() 
         {
+            
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User =Emp;
+            ViewBag.List = null;
+            var msg = (string)Session["Msg"];
+            if(msg!="")
+                ViewBag.Msg = "alert("+msg+")";
             if (!(Emp is null)) {
                 var list = Data.GetBugList(Emp);
                 ViewBag.List = list;
+                
             }
+            
             return View();
         }
     }

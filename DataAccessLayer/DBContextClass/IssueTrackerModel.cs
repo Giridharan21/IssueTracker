@@ -1,6 +1,7 @@
 namespace DataAccessLayer.DBContextClass
 {
     using System;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Linq;
 
@@ -33,6 +34,8 @@ namespace DataAccessLayer.DBContextClass
         public string Password { get; set; }
         public string Role { get; set; }
 
+        
+
     }
     public class ProjectInfo
     {
@@ -43,6 +46,10 @@ namespace DataAccessLayer.DBContextClass
     public class AssignedInfo
     {
         public int Id { get; set; }
+        [ForeignKey("Emp")]
+        public int Emp_FK {get;set;}
+        [ForeignKey("Project")]
+        public int Project_FK {get;set;}
         public EmpInfo Emp { get; set; }
         public ProjectInfo Project { get; set; }
 
@@ -51,6 +58,13 @@ namespace DataAccessLayer.DBContextClass
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        [ForeignKey("BugInProject")]
+        public int Project_FK { get; set; }
+        [ForeignKey("RaisedBy")]
+        public int RaisedBy_FK { get; set; }
+        [ForeignKey("AssignedTo")]
+        public int? AssignedTo_FK { get; set; }
+
         public ProjectInfo BugInProject { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
@@ -61,9 +75,11 @@ namespace DataAccessLayer.DBContextClass
     public class Comments
     {
         public int Id { get; set; }
-        public ProjectInfo CurrentProject { get; set; }
+
+        [ForeignKey("Bugs")]
+        public int Bugs_FK { get; set; }
+        public BugPool Bugs { get; set; }
         public string Comment { get; set; }
-        public EmpInfo CommentBy { get; set; }
         public DateTime  Date { get; set; }
     }
 }

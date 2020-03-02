@@ -53,13 +53,13 @@
   <ItemGroup>
     <Compile Include="Data.cs" />
     <Compile Include="DBContextClass\IssueTrackerModel.cs" />
-    <Compile Include="Migrations\202002280547449_mig.cs" />
-    <Compile Include="Migrations\202002280547449_mig.Designer.cs">
-      <DependentUpon>202002280547449_mig.cs</DependentUpon>
+    <Compile Include="Migrations\202002290754146_Fk_Change.cs" />
+    <Compile Include="Migrations\202002290754146_Fk_Change.Designer.cs">
+      <DependentUpon>202002290754146_Fk_Change.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002280628175_bug.cs" />
-    <Compile Include="Migrations\202002280628175_bug.Designer.cs">
-      <DependentUpon>202002280628175_bug.cs</DependentUpon>
+    <Compile Include="Migrations\202003020817547_Nullable.cs" />
+    <Compile Include="Migrations\202003020817547_Nullable.Designer.cs">
+      <DependentUpon>202003020817547_Nullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,11 +69,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002280547449_mig.resx">
-      <DependentUpon>202002280547449_mig.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002290754146_Fk_Change.resx">
+      <DependentUpon>202002290754146_Fk_Change.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002280628175_bug.resx">
-      <DependentUpon>202002280628175_bug.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003020817547_Nullable.resx">
+      <DependentUpon>202003020817547_Nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
