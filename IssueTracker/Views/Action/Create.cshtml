@@ -19,8 +19,10 @@
 
     }
     @using (Html.BeginForm("create", "action", FormMethod.Post)) {
-        @Html.EditorForModel()
+        @Html.TextBoxFor(g=>g.Description)
+        @Html.EnumDropDownListFor(g=>g.Prior,"Select Priority",new {@class="list" })
         <input type="submit" value="Create" />
+        @Html.ValidationSummary()
     }
 </body>
 </html>

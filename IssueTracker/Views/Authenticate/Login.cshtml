@@ -11,12 +11,12 @@
     <title>Login</title>
 </head>
 <body>
-    
     @using (Html.BeginForm("Login", "Authenticate", FormMethod.Post)) {
 
-        @Html.EditorForModel();
+        @Html.EditorForModel()
         <input type="submit" value="Log In" />
+        //@Html.ValidationSummary()
     }
-     <script>@Html.Raw( ViewBag.alert)</script>
+    <script>@Html.Raw( ViewBag.alert)</script>
 </body>
 </html>

@@ -132,6 +132,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AssignModel.cs" />
     <Compile Include="Models\BugModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Msg.cs" />
@@ -178,6 +179,8 @@
     <Content Include="Views\Authenticate\Index.cshtml" />
     <Content Include="Views\Action\Check.cshtml" />
     <Content Include="Views\Action\Create.cshtml" />
+    <Content Include="Views\Authenticate\Error.cshtml" />
+    <Content Include="Views\Action\Assign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -57,8 +57,13 @@ namespace IssueTracker.Controllers
         [HttpPost]
         public ActionResult Create(BugModel bug) {
             var Emp = (EmpInfo)Session["User"];
-            Data.Create(Emp, bug.Description, bug.Priority);
-            return Redirect("~/Authenticate/Index");
+            ViewBag.User = Emp;
+            if (ModelState.IsValid) {
+                Data.Create(Emp, bug.Description, bug.Prior);
+                return Redirect("~/Authenticate/Index");
+
+            }
+            return View();
         }
 
 
@@ -66,11 +71,22 @@ namespace IssueTracker.Controllers
         public ActionResult Assign() {
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User = Emp;
-
-            return View();
+            var obj = new AssignModel();
+            var list = Data.SetDevelopers();
+            obj.Emp_List = new SelectList(list);
+            return View(obj);
         }
+        [HttpPost]
+        public ActionResult Assign(AssignModel assign) {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+            ViewBag.val = assign.Emp_Id;
+            var obj = new AssignModel();
+            var list = Data.SetDevelopers();
+            obj.Emp_List = new SelectList(list);
 
-
+            return View(obj);
+        }
 
         public ActionResult Resolve(int Id) {
             var Emp = (EmpInfo)Session["User"];

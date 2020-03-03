@@ -4,8 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DBContextClass;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+
+
 namespace DataAccessLayer
 {
+    public enum Priority {
+        Low =1 ,
+        Medium,
+        High,
+        VeryHigh
+    }
+    public enum Developer {
+        Select= 0
+    }
     public class Data
     {
         public static EmpInfo Authenticate (string name, string pass) {
@@ -46,11 +59,11 @@ namespace DataAccessLayer
             context.SaveChanges();
         }
 
-        public static void Create(EmpInfo Emp, string Desc, string Priority) {
+        public static void Create(EmpInfo Emp, string Desc,  Priority x) {
             IssueTrackerModel context = new IssueTrackerModel();
             var project = context.Assigned.Where(g => g.Emp.Id == Emp.Id).Select(g => g.Project).FirstOrDefault();
             BugPool bug = new BugPool();
-            bug.Priority = Priority;
+            bug.Priority = x.ToString();
             bug.RaisedBy_FK = Emp.Id;
             //bug.RaisedBy = Emp;
             bug.Status = "Open";
@@ -60,5 +73,16 @@ namespace DataAccessLayer
             context.Bugs.Add(bug);
             context.SaveChanges();
         }
+
+        public static List<string> SetDevelopers() {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var list = new List<string>();
+            var devs = context.Employees.Where(g => g.Role == "Developer").Select(g => g);
+            foreach(var i in devs) {
+                list.Add(i.Id.ToString());
+            }
+            return list;
+        }
     }
+    
 }

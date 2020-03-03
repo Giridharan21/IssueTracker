@@ -1,0 +1,22 @@
+﻿@model IssueTracker.Models.AssignModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Assign</title>
+</head>
+<body>
+    @using (Html.BeginForm("Assign", "Action", FormMethod.Post)){ 
+        <span>Developer </span>@Html.DropDownListFor(g=>g.Emp_Id, Model.Emp_List,"Select the Developer") <br />
+        <span>Comment </span>@Html.TextBoxFor(g=>g.Comment)
+        <input type="submit" value="Assign" />
+        @Html.ValidationSummary()
+    }
+        <b>@ViewBag.Val</b>
+</body>
+</html>

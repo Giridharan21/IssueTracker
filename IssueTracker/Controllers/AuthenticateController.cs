@@ -18,10 +18,12 @@ namespace IssueTracker.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel user) {
             var Emp = Data.Authenticate(user.Username, user.Password);
-            if(ModelState.IsValid&&(!(Emp is null))) {
+            if (ModelState.IsValid && (!(Emp is null))) {
                 Session["User"] = Emp;
                 return Redirect("~/Authenticate/Index");
             }
+            else if (user.Username ==null)
+                return View();
             ViewBag.alert = "alert('Invalid User')";
             return View();
         }
@@ -43,6 +45,10 @@ namespace IssueTracker.Controllers
                 
             }
             
+            return View();
+        }
+        public ActionResult Error() {
+
             return View();
         }
     }
