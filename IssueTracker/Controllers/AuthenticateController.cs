@@ -33,8 +33,10 @@ namespace IssueTracker.Controllers
             ViewBag.User =Emp;
             ViewBag.List = null;
             var msg = (string)Session["Msg"];
-            if(msg!="")
-                ViewBag.Msg = "alert("+msg+")";
+            if (msg != "") {
+                ViewBag.Msg = msg;
+                Session["Msg"] = "";
+            }
             if (!(Emp is null)) {
                 var list = Data.GetBugList(Emp);
                 ViewBag.List = list;

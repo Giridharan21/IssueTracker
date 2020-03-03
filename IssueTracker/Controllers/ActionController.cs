@@ -42,7 +42,7 @@ namespace IssueTracker.Controllers
             else{
                 Message = "Invalid Operation.. Bug is not yet Resolved";
             }
-            Session["Msg"] = Message;
+            Session["Msg"] = "alert('" + Message + "')";
             Data.Change(Id, Status);
             return Redirect("~/Authenticate/Index");
         }
