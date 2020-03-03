@@ -20,13 +20,7 @@ namespace IssueTracker.Controllers
         //    ViewBag.BugId = id;
         //    return View();
         //}
-        public ActionResult Check() {
-            var Emp = (EmpInfo)Session["User"];
-            ViewBag.User = Emp;
-
-            //ViewBag.BugId = id;
-            return View();
-        }
+        
         [HttpPost]
         public ActionResult Check(int Id, string Status) {
             
@@ -67,32 +61,72 @@ namespace IssueTracker.Controllers
         }
 
 
-        
-        public ActionResult Assign() {
+        [HttpGet]
+        public ActionResult Assign(int Id=0) {
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User = Emp;
             var obj = new AssignModel();
             var list = Data.SetDevelopers();
             obj.Emp_List = new SelectList(list);
+            ViewBag.Id = Id;
+            if (Data.GetBugStatus(Id) == "Assigned") {
+                Session["Msg"] = "alert('Task is already assigned...!')";
+                return Redirect("~/Authenticate/Index");
+            }
             return View(obj);
         }
         [HttpPost]
         public ActionResult Assign(AssignModel assign) {
+
             var Emp = (EmpInfo)Session["User"];
-            ViewBag.User = Emp;
-            ViewBag.val = assign.Emp_Id;
             var obj = new AssignModel();
+            ViewBag.User = Emp;
             var list = Data.SetDevelopers();
             obj.Emp_List = new SelectList(list);
-
+            if (ModelState.IsValid) {
+                var DevId = assign.Emp_Id;
+                int DevIdInt = int.Parse(DevId.Substring(DevId.IndexOf('(') + 1, DevId.IndexOf(')') - DevId.IndexOf('(') - 1));
+                Data.Assign(Emp, assign.BugId, DevIdInt, assign.Comment);
+                return RedirectToAction( "Index", "Authenticate");
+            }
+            ViewBag.Id = assign.BugId;
             return View(obj);
         }
 
-        public ActionResult Resolve(int Id) {
+        
+        [HttpPost]
+        public ActionResult Resolve(int Id,string Status) {
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User = Emp;
-            Data.Change(Id, "Resolved");
-            return View();
+            string Message;
+            if (Status == "Assigned" ) {
+                Message = "The Bug is Resolved";
+                Data.Change(Id, "Resolved");
+            }
+            else if (Status == "Closed") {
+                Message = "The Bug is Closed.!";
+            }
+            
+            else {
+                Message = "Invalid Operation.. Bug is already Resolved";
+            }
+            Session["Msg"] = "alert('" + Message + "')";
+
+            return Redirect("~/Authenticate/Index");
+        }
+        [HttpGet]
+        public ActionResult Comments(int Id=0) {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+            var CmtList = Data.GetCommentsList(Id);
+            return View(CmtList);
+        }
+        [HttpPost]
+        public ActionResult Comments() {
+            var Emp = (EmpInfo)Session["User"];
+            ViewBag.User = Emp;
+
+            return Redirect("~/Authenticate/Index");
         }
     }
 }

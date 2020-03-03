@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace IssueTracker.Models {
     public class AssignModel {
         
-        public int Id { get; set; }
+        public int BugId { get; set; }
         [Required(ErrorMessage ="Select a Developer")]
         public string Emp_Id { get; set; }
         public string Comment { get; set; }

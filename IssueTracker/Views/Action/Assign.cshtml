@@ -11,12 +11,49 @@
     <title>Assign</title>
 </head>
 <body>
-    @using (Html.BeginForm("Assign", "Action", FormMethod.Post)){ 
-        <span>Developer </span>@Html.DropDownListFor(g=>g.Emp_Id, Model.Emp_List,"Select the Developer") <br />
-        <span>Comment </span>@Html.TextBoxFor(g=>g.Comment)
+    @if (ViewBag.User is null) {
+        <script>
+            alert('Login to continue');
+            location.href = "/Authenticate/Login";
+        </script>
+
+    }
+    @{
+        Model.BugId = ViewBag.Id;
+    }
+    @using (Html.BeginForm("Assign", "Action", FormMethod.Post)) {
+        @Html.HiddenFor(g => g.BugId)
+        <span>Developer </span>@Html.DropDownListFor(g => g.Emp_Id, Model.Emp_List, "Select the Developer") <br />
+        <div id="Add">
+            Add Comment
+        </div>
+        <div id="Show" style="display:none">
+            @Html.TextBoxFor(g => g.Comment) &nbsp;
+            <span id="close"><b>&Chi;</b></span>
+        </div>
+        <br />
         <input type="submit" value="Assign" />
         @Html.ValidationSummary()
     }
-        <b>@ViewBag.Val</b>
+    <b>@ViewBag.Value</b>
+    <script>
+        var but = document.getElementById("Add");
+        var show = document.getElementById("Show");
+        var close = document.getElementById("close");
+        but.style = "cursor:pointer";
+        close.style = "cursor:pointer;border:1px solid black; border-radius:50px;padding:2px;";
+        but.addEventListener("click", showDiv);
+        close.addEventListener("click", CloseDiv);
+        function showDiv() {
+            show.style = "display:inline";
+            but.innerHTML = "Comment";
+            but.style = "cursor:text";
+        }
+        function CloseDiv() {
+            show.style = "display:none";
+            but.innerHTML = "Add Comment";
+            but.style = "cursor:Pointer";
+        }
+    </script>
 </body>
 </html>

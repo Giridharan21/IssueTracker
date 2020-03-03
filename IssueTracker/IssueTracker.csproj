@@ -181,6 +181,7 @@
     <Content Include="Views\Action\Create.cshtml" />
     <Content Include="Views\Authenticate\Error.cshtml" />
     <Content Include="Views\Action\Assign.cshtml" />
+    <Content Include="Views\Action\Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

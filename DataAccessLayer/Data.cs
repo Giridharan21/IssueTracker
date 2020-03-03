@@ -16,9 +16,7 @@ namespace DataAccessLayer
         High,
         VeryHigh
     }
-    public enum Developer {
-        Select= 0
-    }
+    
     public class Data
     {
         public static EmpInfo Authenticate (string name, string pass) {
@@ -56,6 +54,9 @@ namespace DataAccessLayer
             IssueTrackerModel context = new IssueTrackerModel();
             var Bug = context.Bugs.Where(g => g.Id == id).FirstOrDefault();
             Bug.Status = Status;
+            if (Status == "Re-Open") {
+                Bug.AssignedTo_FK = null;
+            }
             context.SaveChanges();
         }
 
@@ -79,8 +80,36 @@ namespace DataAccessLayer
             var list = new List<string>();
             var devs = context.Employees.Where(g => g.Role == "Developer").Select(g => g);
             foreach(var i in devs) {
-                list.Add(i.Id.ToString());
+                list.Add(i.Name+" ("+ i.Id.ToString()+")");
             }
+            return list;
+        }
+
+        public static void Assign(EmpInfo Emp,int BugId, int DevId, string Cmt) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var BugRow = context.Bugs.Where(g => g.Id == BugId).FirstOrDefault();
+            BugRow.AssignedTo_FK = DevId;
+            BugRow.Status = "Assigned";
+            if(!(Cmt is null || Cmt == "")) {
+                var ObjCmt = new Comments() {Bugs_FK=BugId,Comment=Cmt,Date=DateTime.Now };
+                context.Comments.Add(ObjCmt);
+            }
+            context.SaveChanges();
+        }
+
+        public static string GetBugStatus(int BugId) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var Obj = context.Bugs.Where(g => g.Id == BugId).FirstOrDefault();
+            return Obj.Status;
+        }
+
+
+        public static List<Comments> GetCommentsList (int BugId) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var listQuery = context.Comments.Where(g => g.Id == BugId).Select(g => g);
+            var list = new List<Comments>();
+            foreach (var i in listQuery)
+                list.Add(i);
             return list;
         }
     }

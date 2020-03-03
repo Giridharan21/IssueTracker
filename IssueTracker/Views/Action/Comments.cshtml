@@ -1,0 +1,47 @@
+﻿@model List<DataAccessLayer.DBContextClass.Comments>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Comments</title>
+    <style>
+        .left{
+            float:left;
+        }
+        .right{
+            float:right;
+        }
+        .Msg{
+            height:10px;
+            padding:5px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @{ 
+            var Emp = ViewBag.User;
+        }
+        @try {
+        foreach (var i in Model) {
+            <div>
+                <span class="left">@i.Date.ToShortDateString() &nbsp; @i.Date.ToShortTimeString()</span><span class="right">@Emp.Name</span>
+                <br />
+                <div class="Msg">@i.Comment</div>
+            </div>
+            }
+        }
+        catch (Exception Exp) {
+            <script>alert('Error...!!!' + @Exp.Message + ' Login Again')
+                location.href = "../Authenticate/login";
+            </script>
+            
+        }
+    </div>
+</body>
+</html>

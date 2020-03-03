@@ -40,6 +40,7 @@
                     <th>Assigned To</th>
                     <th>Status</th>
                     <th>Action</th>
+                    <th colspan="1">Comments</th>
                 </tr>
                 @foreach (var i in list) {
                     <tr>
@@ -62,7 +63,8 @@
                             else if (user.Role == "Developer") {
                                 using (Html.BeginForm("Resolve", "Action", FormMethod.Post)) {
                                     <input type="hidden" value=@i.Id name="Id" />
-                                    <input type="submit" id="Resolve" value="Resolve" onclick="" />
+                                    <input type="hidden" value=@i.Status name="Status" />
+                                    <input type="submit" id="Resolve" value="Resolve" />
                                 }
                                 //<a href="~/Action/Resolve/?id=@i.Id">Resolve</a>
                             }
@@ -75,6 +77,8 @@
                                 //<a href="~/Action/Check/@i.Id">Check</a>
                             }
                         </td>
+                        <td><a href=""></a></td>
+                        
                     </tr>
                 }
 
