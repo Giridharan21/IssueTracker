@@ -66,7 +66,7 @@ namespace IssueTracker.Controllers
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User = Emp;
             var obj = new AssignModel();
-            var list = Data.SetDevelopers();
+            var list = Data.SetDevelopers(Emp);
             obj.Emp_List = new SelectList(list);
             ViewBag.Id = Id;
             if (Data.GetBugStatus(Id) == "Assigned") {
@@ -81,7 +81,7 @@ namespace IssueTracker.Controllers
             var Emp = (EmpInfo)Session["User"];
             var obj = new AssignModel();
             ViewBag.User = Emp;
-            var list = Data.SetDevelopers();
+            var list = Data.SetDevelopers(Emp);
             obj.Emp_List = new SelectList(list);
             if (ModelState.IsValid) {
                 var DevId = assign.Emp_Id;
@@ -118,14 +118,23 @@ namespace IssueTracker.Controllers
         public ActionResult Comments(int Id=0) {
             var Emp = (EmpInfo)Session["User"];
             ViewBag.User = Emp;
+            ViewBag.BugId = Id;
+            ViewBag.Count = "";
             var CmtList = Data.GetCommentsList(Id);
+            if (CmtList.Count == 0)
+                ViewBag.Count = "No List";
             return View(CmtList);
         }
         [HttpPost]
-        public ActionResult Comments() {
+        public ActionResult Comments(int BugId,string Comment) {
             var Emp = (EmpInfo)Session["User"];
+            ViewBag.Count = "";
             ViewBag.User = Emp;
-
+            if (BugId != 0) {
+                Data.AddComments(Emp, BugId, Comment);
+                return Redirect("~/Authenticate/Index");
+            }
+            Session["Msg"] = "alert('Error Select A Bug To Add Comment...!')";
             return Redirect("~/Authenticate/Index");
         }
     }

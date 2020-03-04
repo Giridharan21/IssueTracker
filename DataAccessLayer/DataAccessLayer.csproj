@@ -61,6 +61,14 @@
     <Compile Include="Migrations\202003020817547_Nullable.Designer.cs">
       <DependentUpon>202003020817547_Nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003040612162_ColInComments.cs" />
+    <Compile Include="Migrations\202003040612162_ColInComments.Designer.cs">
+      <DependentUpon>202003040612162_ColInComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003040654073_mig3.cs" />
+    <Compile Include="Migrations\202003040654073_mig3.Designer.cs">
+      <DependentUpon>202003040654073_mig3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -74,6 +82,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003020817547_Nullable.resx">
       <DependentUpon>202003020817547_Nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003040612162_ColInComments.resx">
+      <DependentUpon>202003040612162_ColInComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003040654073_mig3.resx">
+      <DependentUpon>202003040654073_mig3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

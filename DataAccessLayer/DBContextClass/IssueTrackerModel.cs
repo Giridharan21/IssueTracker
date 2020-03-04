@@ -81,5 +81,9 @@ namespace DataAccessLayer.DBContextClass
         public BugPool Bugs { get; set; }
         public string Comment { get; set; }
         public DateTime  Date { get; set; }
+
+        [ForeignKey("CommentBy")]
+        public int Emp_FK { get; set; }
+        public EmpInfo CommentBy { get; set; }
     }
 }

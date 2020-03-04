@@ -75,13 +75,18 @@ namespace DataAccessLayer
             context.SaveChanges();
         }
 
-        public static List<string> SetDevelopers() {
+        public static List<string> SetDevelopers(EmpInfo Emp) {
             IssueTrackerModel context = new IssueTrackerModel();
             var list = new List<string>();
-            var devs = context.Employees.Where(g => g.Role == "Developer").Select(g => g);
+            var projectId = context.Assigned.Where(g => g.Emp_FK == Emp.Id).FirstOrDefault();
+            var devs = context.Employees
+                .Join(context.Assigned,emp=>emp.Id,ass=>ass.Emp_FK,(emp,ass)=>new {emp.Id,emp.Name,emp.Role,ass.Project_FK })
+                .Where(g => g.Role == "Developer" && g.Project_FK==projectId.Project_FK)
+                .Select(g=>g);
             foreach(var i in devs) {
                 list.Add(i.Name+" ("+ i.Id.ToString()+")");
             }
+            
             return list;
         }
 
@@ -91,8 +96,9 @@ namespace DataAccessLayer
             BugRow.AssignedTo_FK = DevId;
             BugRow.Status = "Assigned";
             if(!(Cmt is null || Cmt == "")) {
-                var ObjCmt = new Comments() {Bugs_FK=BugId,Comment=Cmt,Date=DateTime.Now };
-                context.Comments.Add(ObjCmt);
+                AddComments(Emp, BugId, Cmt);
+                //var ObjCmt = new Comments() {Bugs_FK=BugId,Comment=Cmt,Date=DateTime.Now };
+                //context.Comments.Add(ObjCmt);
             }
             context.SaveChanges();
         }
@@ -106,11 +112,32 @@ namespace DataAccessLayer
 
         public static List<Comments> GetCommentsList (int BugId) {
             IssueTrackerModel context = new IssueTrackerModel();
-            var listQuery = context.Comments.Where(g => g.Id == BugId).Select(g => g);
+            var listQuery = context.Comments.Where(g => g.Bugs_FK == BugId).Select(g => g);
+            var BugQuery = context.Bugs.Select(i=>i);
+            var EmpQuery = context.Employees.Select(i => i);
+
+            foreach (var i in EmpQuery) { }
+            foreach (var i in BugQuery) { }
+            
             var list = new List<Comments>();
-            foreach (var i in listQuery)
+            
+            foreach (var i in listQuery) {
+                var temp = i.CommentBy;
+                var temp2 = i.Bugs;
                 list.Add(i);
+
+            }
+            
+            
             return list;
+        }
+
+
+        public static void AddComments(EmpInfo Emp,int BugId,string CommentString) {
+            IssueTrackerModel context = new IssueTrackerModel();
+            var Cmt = new Comments() { Bugs_FK = BugId, Comment = CommentString, Date = DateTime.Now ,Emp_FK = Emp.Id};
+            context.Comments.Add(Cmt);
+            context.SaveChanges();
         }
     }
     
