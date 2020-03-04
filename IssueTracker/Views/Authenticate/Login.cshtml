@@ -1,20 +1,35 @@
 ﻿@model IssueTracker.Models.LoginModel
 
-
+@{ 
+    Layout = null;
+}
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    <link href="~/Content/Login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    @using (Html.BeginForm("Login", "Authenticate", FormMethod.Post)) {
+    <div id="DivForm">
+        <h2>LogIn</h2>
+        @using (Html.BeginForm("Login", "Authenticate", FormMethod.Post)) {
 
-        @Html.EditorForModel()
-        <input type="submit" value="Log In" />
-        //@Html.ValidationSummary()
-    }
+            
+            @Html.LabelFor(g=>g.Username)
+            <br />
+            @Html.TextBoxFor(g=>g.Username,new {@class="input" ,@placeholder="Enter Username" })<br />
+            @Html.LabelFor(g=>g.Password)
+            <br />
+            @Html.PasswordFor(g=>g.Password,new {@class="input",@placeholder="Enter Password" })<br />
+            <div id="SubmitDiv">
+                <input type="submit" value="Log In" />
+                    
+            </div>
+            @Html.ValidationSummary("",new { @class="Summary"})
+        }
+    </div>
     <script>@Html.Raw( ViewBag.alert)</script>
 </body>
 </html>

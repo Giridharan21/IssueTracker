@@ -7,7 +7,7 @@ namespace DataAccessLayer.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.Comments", "Emp_FK", c => c.Int(nullable: false));
+            AddColumn("dbo.Comments", "Emp_FK", c => c.Int(nullable: true));
             CreateIndex("dbo.Comments", "Emp_FK");
             AddForeignKey("dbo.Comments", "Emp_FK", "dbo.EmpInfoes", "Id", cascadeDelete: false);
         }

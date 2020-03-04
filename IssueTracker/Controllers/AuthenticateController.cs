@@ -23,7 +23,7 @@ namespace IssueTracker.Controllers
                 return Redirect("~/Authenticate/Index");
             }
             else if (user.Username ==null)
-                return View();
+                 return View();
             ViewBag.alert = "alert('Invalid User')";
             return View();
         }
