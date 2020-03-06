@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using DataAccessLayer;
 using DataAccessLayer.DBContextClass;
 using IssueTracker.Models;
-
+//hi
 namespace IssueTracker.Controllers
 {
     public class ActionController : Controller
